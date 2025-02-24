@@ -56,8 +56,8 @@
         downhillPOIs.forEach(poi => {
             L.circleMarker([poi.lat, poi.lon], {
                 radius: 8,
-                color: "blue",
-                fillColor: "blue",
+                color: #89CFF0,
+                fillColor: #89CFF0,
                 fillOpacity: 0.9
             }).addTo(map)
             .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
