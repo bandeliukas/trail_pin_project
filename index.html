@@ -32,9 +32,20 @@
         ];
 
         // Add Markers
+        
+        //poiData.forEach(poi => {
+        //    var marker = L.marker([poi.lat, poi.lon]).addTo(map)
+        //        .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
+        //});
+
         poiData.forEach(poi => {
-            var marker = L.marker([poi.lat, poi.lon]).addTo(map)
-                .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
+            L.circleMarker([poi.lat, poi.lon], {
+                radius: 8, // Size of the circle
+                color: "orange", // Border color
+                fillColor: "orange", // Fill color
+                fillOpacity: 0.9
+            }).addTo(map)
+            .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
         });
 
     </script>
