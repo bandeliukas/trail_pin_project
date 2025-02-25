@@ -17,14 +17,6 @@
 </head>
 <body>
     <div id="map"></div>
-    <div id="info-box">
-        <div class="info-text">
-            <h3 id="poi-title">Click a POI to see details</h3>
-            <p id="poi-description"></p>
-            <a id="poi-link" href="#" target="_blank" style="display: none;">More Info</a>
-        </div>
-        <img id="poi-image" src="" alt="">
-    </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
@@ -36,7 +28,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
         }).addTo(map);
 
-        // POI Data (Added description and image)
+        // POI Data (with description and images)
         var uphillPOIs = [
             { lat: 54.69884706471475, lon: 25.32947461841886, name: "Slidininko kalnas", url: "https://www.strava.com/segments/13369895", description: "A popular skiing hill.", img: "https://nesedeknamuose.lt/wp-content/uploads/2022/12/Takas-aplink-Vilniu-X-14.jpg" },
             { lat: 54.70589482434103, lon: 25.261588790696116, name: "Akropolio kalnas", url: "https://www.strava.com/segments/37817192", description: "A steep climb near the mall.", img: "https://upload.wikimedia.org/wikipedia/commons/b/b7/Shopping_Centre_Akropolis_Kaunas_%286005351132%29.jpg" },
