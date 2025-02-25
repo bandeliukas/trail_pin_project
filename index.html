@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+         <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Map</title>
+    <title>Trail Capital of Vilnius</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/2.1.2/gpx.min.js"></script>
     <style>
         #map {
             height: 100vh;
@@ -58,8 +60,6 @@
 </head>
 <body>
     <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize Map
         var map = L.map('map').setView([54.68694110182793, 25.29071536951612], 13);
@@ -67,6 +67,22 @@
         // Grayscale Tile Layer
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
+        }).addTo(map);
+
+        // URL to the GPX file on GitHub (Ensure it's the raw URL)
+        var gpxUrl = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sapiegine.gpx';
+
+        // Add GPX track to the map
+        var gpxLayer = new L.GPX(gpxUrl, {
+            async: true,
+            markers: {
+                startIcon: null,
+                endIcon: null
+            },
+            polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
+    
+        }).on('loaded', function(e) {
+            // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
         }).addTo(map);
 
         // POI Data (with description and images)
@@ -82,6 +98,10 @@
             { lat: 54.687578551657914, lon: 25.344936343379143, name: "Belmonto nuokalnė", url: "https://www.strava.com/segments/38373633", description: "A thrilling downhill ride.", img: "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg" },
             { lat: 54.70442652995048, lon: 25.35431724986794, name: "Rokantiškių nuokalnė", url: "https://www.strava.com/segments/34325685", description: "A fast and technical descent.", img: "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg" },
             { lat: 54.6938346446978, lon: 25.2308821508411, name: "Koralų nuokalnė", url: "https://www.strava.com/segments/36223841", description: "...", img: "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg" }
+        ];
+
+        var trackPOIs = [
+            { lat: 54.7086330, lon: 25.3310150, name: "Sapieginės klasika", url: "https://www.strava.com/segments/17630714", description: "Amazeballs route", img: "https://nesedeknamuose.lt/wp-content/uploads/2022/12/Sapiegines-pazintinis-poilsinis-takas-13-1.jpg" }
         ];
 
         // Function to Add POIs
@@ -115,8 +135,9 @@
         }
 
         // Add both POI types
-        uphillPOIs.forEach(poi => addPOI(poi, "orange"));
-        downhillPOIs.forEach(poi => addPOI(poi, "#89CFF0"));
+        uphillPOIs.forEach(poi => addPOI(poi, "red"));
+        downhillPOIs.forEach(poi => addPOI(poi, "blue"));
+        trackPOIs.forEach(poi => addPOI(poi, "green"));
 
     </script>
 </body>
