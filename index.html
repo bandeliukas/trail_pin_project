@@ -10,10 +10,38 @@
             height: 100vh;
             width: 100%;
         }
+        #info-box {
+            height: 20vh;
+            background: white;
+            padding: 10px;
+            border-top: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: Arial, sans-serif;
+        }
+        #info-box img {
+            height: 100px;
+            width: auto;
+            border-radius: 8px;
+        }
+        .info-text {
+            flex: 1;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="map"></div>
+
+    <div id="info-box">
+        <div class="info-text">
+            <h3 id="poi-title">Click a POI to see details</h3>
+            <p id="poi-description"></p>
+            <a id="poi-link" href="#" target="_blank" style="display: none;">More Info</a>
+        </div>
+        <img id="poi-image" src="" alt="" style="display: none;">
+    </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
@@ -72,6 +100,16 @@
             opacity: 0.9 // Make it slightly transparent
             })
         });
+
+            marker.on("click", function () {
+                document.getElementById("poi-title").textContent = poi.name;
+                document.getElementById("poi-description").textContent = poi.description;
+                document.getElementById("poi-link").href = poi.url;
+                document.getElementById("poi-link").style.display = "inline";
+                document.getElementById("poi-link").textContent = "More Info";
+                document.getElementById("poi-image").src = poi.img;
+                document.getElementById("poi-image").style.display = "inline";
+            });
 
     </script>
 </body>
