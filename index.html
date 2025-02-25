@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map {
-            height: 100vh;
+            height: 80vh;
             width: 100%;
         }
         #info-box {
@@ -24,6 +24,7 @@
             height: 100px;
             width: auto;
             border-radius: 8px;
+            display: none;
         }
         .info-text {
             flex: 1;
@@ -33,74 +34,55 @@
 </head>
 <body>
     <div id="map"></div>
-
     <div id="info-box">
         <div class="info-text">
             <h3 id="poi-title">Click a POI to see details</h3>
             <p id="poi-description"></p>
             <a id="poi-link" href="#" target="_blank" style="display: none;">More Info</a>
         </div>
-        <img id="poi-image" src="" alt="" style="display: none;">
+        <img id="poi-image" src="" alt="">
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Initialize Map
-        var map = L.map('map').setView([54.68694110182793, 25.29071536951612], 13); // Example: New York City
+        var map = L.map('map').setView([54.68694110182793, 25.29071536951612], 13);
 
-        // Add grayscale tiles (Carto's Light theme)
+        // Grayscale Tile Layer
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
         }).addTo(map);
 
-        // Example POI data (Replace with your own)
+        // POI Data (Added description and image)
         var uphillPOIs = [
-            { lat: 54.69884706471475, lon: 25.32947461841886, name: "Slidininko kalnas", url: "https://www.strava.com/segments/13369895" },
-            { lat: 54.70589482434103, lon: 25.261588790696116, name: "Akropolio kalnas", url: "https://www.strava.com/segments/37817192" },
-            { lat: 54.66056443093434, lon: 25.171148002289513, name: "Gariūnų kalnas", url: "https://www.strava.com/segments/21411507" },
-            { lat: 54.692003397698706, lon: 25.229645357021308, name: "Koralų kalnas", url: "https://www.strava.com/segments/12454195" },
-            { lat: 54.68681934986343, lon: 25.297548648718806, name: "3K kalnas", url: "https://www.strava.com/segments/11994959" }
-            ,  
+            { lat: 54.69884706471475, lon: 25.32947461841886, name: "Slidininko kalnas", url: "https://www.strava.com/segments/13369895", description: "A popular skiing hill.", img: "https://nesedeknamuose.lt/wp-content/uploads/2022/12/Takas-aplink-Vilniu-X-14.jpg" },
+            { lat: 54.70589482434103, lon: 25.261588790696116, name: "Akropolio kalnas", url: "https://www.strava.com/segments/37817192", description: "A steep climb near the mall.", img: "https://upload.wikimedia.org/wikipedia/commons/b/b7/Shopping_Centre_Akropolis_Kaunas_%286005351132%29.jpg" },
+            { lat: 54.66056443093434, lon: 25.171148002289513, name: "Gariūnų kalnas", url: "https://www.strava.com/segments/21411507", description: "...", img: "https://i.ytimg.com/vi/lFjWA5w74nY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCm9vDmKgIWU89Z6usadvMrRyotRA" },
+            { lat: 54.692003397698706, lon: 25.229645357021308, name: "Koralų kalnas", url: "https://www.strava.com/segments/12454195", description: "...", img: "https://i.ytimg.com/vi/lFjWA5w74nY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCm9vDmKgIWU89Z6usadvMrRyotRA" },
+            { lat: 54.68681934986343, lon: 25.297548648718806, name: "3K kalnas", url: "https://www.strava.com/segments/11994959", description: "...", img: "https://i.ytimg.com/vi/lFjWA5w74nY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCm9vDmKgIWU89Z6usadvMrRyotRA" }
         ];
 
         var downhillPOIs = [
-            { lat: 54.687578551657914, lon: 25.344936343379143, name: "Belmonto nuokalnė", url: "https://www.strava.com/segments/38373633" },
-            { lat: 54.70442652995048, lon: 25.35431724986794, name: "Rokantiškių nuokalnė", url: "https://www.strava.com/segments/34325685" },
-            { lat: 54.6938346446978, lon: 25.2308821508411, name: "Koralų nuokalnė", url: "https://www.strava.com/segments/36223841" }
-            ,  
+            { lat: 54.687578551657914, lon: 25.344936343379143, name: "Belmonto nuokalnė", url: "https://www.strava.com/segments/38373633", description: "A thrilling downhill ride.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk-fy4M5RV5AySeVXO-KmDq-pmR7un4YngPQ&s" },
+            { lat: 54.70442652995048, lon: 25.35431724986794, name: "Rokantiškių nuokalnė", url: "https://www.strava.com/segments/34325685", description: "A fast and technical descent.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRETHBnVF3ny_d1qPe_5GJfMKCUy_WoBZnQeA&s" },
+            { lat: 54.6938346446978, lon: 25.2308821508411, name: "Koralų nuokalnė", url: "https://www.strava.com/segments/36223841", description: "...", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRETHBnVF3ny_d1qPe_5GJfMKCUy_WoBZnQeA&s" }
         ];
 
-        // Add Markers
-        
-        uphillPOIs.forEach(poi => {
-            L.circleMarker([poi.lat, poi.lon], {
+        // Function to Add POIs
+        function addPOI(poi, color) {
+            var marker = L.circleMarker([poi.lat, poi.lon], {
                 radius: 8,
-                color: "orange",
-                fillColor: "orange",
+                color: color,
+                fillColor: color,
                 fillOpacity: 0.9
             }).addTo(map)
-            // .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
             .bindTooltip(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`, {
-            permanent: false, // Tooltip disappears when the mouse leaves
-            direction: "top", // Adjust position (top, bottom, left, right, auto)
-            opacity: 0.9 // Make it slightly transparent
-        });
+                permanent: false,
+                direction: "top",
+                opacity: 0.9
+            });
 
-        downhillPOIs.forEach(poi => {
-            L.circleMarker([poi.lat, poi.lon], {
-                radius: 8,
-                color: "#89CFF0",
-                fillColor: "#89CFF0",
-                fillOpacity: 0.9
-            }).addTo(map)
-            // .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
-            .bindTooltip(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`, {
-            permanent: false, // Tooltip disappears when the mouse leaves
-            direction: "top", // Adjust position (top, bottom, left, right, auto)
-            opacity: 0.9 // Make it slightly transparent
-            })
-        });
-
+            // Click Event to Update Info Box
             marker.on("click", function () {
                 document.getElementById("poi-title").textContent = poi.name;
                 document.getElementById("poi-description").textContent = poi.description;
@@ -110,6 +92,11 @@
                 document.getElementById("poi-image").src = poi.img;
                 document.getElementById("poi-image").style.display = "inline";
             });
+        }
+
+        // Add both POI types
+        uphillPOIs.forEach(poi => addPOI(poi, "orange"));
+        downhillPOIs.forEach(poi => addPOI(poi, "#89CFF0"));
 
     </script>
 </body>
