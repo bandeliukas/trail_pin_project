@@ -10,25 +10,8 @@
             height: 80vh;
             width: 100%;
         }
-        #info-box {
-            height: 20vh;
-            background: white;
-            padding: 10px;
-            border-top: 2px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-family: Arial, sans-serif;
-        }
-        #info-box img {
-            height: 100px;
-            width: auto;
-            border-radius: 8px;
-            display: none;
-        }
-        .info-text {
-            flex: 1;
-            padding: 10px;
+        .leaflet-interactive:focus {
+            outline: none;
         }
     </style>
 </head>
@@ -76,21 +59,24 @@
                 fillColor: color,
                 fillOpacity: 0.9
             }).addTo(map)
-            .bindTooltip(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`, {
+            .bindTooltip(`<b>${poi.name}</b>`, {
                 permanent: false,
                 direction: "top",
                 opacity: 0.9
             });
 
-            // Click Event to Update Info Box
+            // Click Event to Show a Custom Popup
             marker.on("click", function () {
-                document.getElementById("poi-title").textContent = poi.name;
-                document.getElementById("poi-description").textContent = poi.description;
-                document.getElementById("poi-link").href = poi.url;
-                document.getElementById("poi-link").style.display = "inline";
-                document.getElementById("poi-link").textContent = "More Info";
-                document.getElementById("poi-image").src = poi.img;
-                document.getElementById("poi-image").style.display = "inline";
+                var popupContent = `
+                    <div style="max-width: 200px; font-family: Arial, sans-serif;">
+                        <h4 style="margin: 5px 0;">${poi.name}</h4>
+                        <p style="margin: 5px 0;">${poi.description}</p>
+                        <a href="${poi.url}" target="_blank" style="color: blue; text-decoration: underline;">More Info</a>
+                        <br>
+                        <img src="${poi.img}" alt="Image of ${poi.name}" style="width: 100%; height: auto; border-radius: 5px; margin-top: 5px;">
+                    </div>
+                `;
+                marker.bindPopup(popupContent).openPopup();
             });
         }
 
