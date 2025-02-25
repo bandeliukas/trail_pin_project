@@ -1,4 +1,4 @@
-         <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -69,11 +69,13 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
         }).addTo(map);
 
+
+
         // URL to the GPX file on GitHub (Ensure it's the raw URL)
-        var gpxUrl = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sapiegine.gpx';
+        var gpxUrl1 = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sapiegine.gpx';
 
         // Add GPX track to the map
-        var gpxLayer = new L.GPX(gpxUrl, {
+        var gpxLayer = new L.GPX(gpxUrl1, {
             async: true,
             markers: {
                 startIcon: null,
@@ -84,6 +86,44 @@
         }).on('loaded', function(e) {
             // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
         }).addTo(map);
+
+        
+
+        // URL to the GPX file on GitHub (Ensure it's the raw URL)
+        var gpxUrl2 = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sauletekis.gpx';
+
+        // Add GPX track to the map
+        var gpxLayer = new L.GPX(gpxUrl2, {
+            async: true,
+            markers: {
+                startIcon: null,
+                endIcon: null
+            },
+            polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
+    
+        }).on('loaded', function(e) {
+            // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
+        }).addTo(map);
+
+
+
+        // URL to the GPX file on GitHub (Ensure it's the raw URL)
+        var gpxUrl3 = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_puckoriai.gpx';
+
+        // Add GPX track to the map
+        var gpxLayer = new L.GPX(gpxUrl3, {
+            async: true,
+            markers: {
+                startIcon: null,
+                endIcon: null
+            },
+            polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
+    
+        }).on('loaded', function(e) {
+            // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
+        }).addTo(map);
+
+
 
         // POI Data (with description and images)
         var uphillPOIs = [
@@ -101,7 +141,9 @@
         ];
 
         var trackPOIs = [
-            { lat: 54.7086330, lon: 25.3310150, name: "Sapieginės klasika", url: "https://www.strava.com/segments/17630714", description: "Amazeballs route", img: "https://nesedeknamuose.lt/wp-content/uploads/2022/12/Sapiegines-pazintinis-poilsinis-takas-13-1.jpg" }
+            { lat: 54.7086330, lon: 25.3310150, name: "Sapieginės klasika", url: "https://www.strava.com/segments/17630714", description: "Amazeballs route", img: "https://nesedeknamuose.lt/wp-content/uploads/2022/12/Sapiegines-pazintinis-poilsinis-takas-13-1.jpg" },
+            { lat: 54.726161, lon: 25.342729, name: "Saulėtekio MTB", url: "https://www.strava.com/segments/9689464", description: "Ten kur saulė pateka", img: "https://panele.lt/wp-content/uploads/2024/07/image_2024-07-25_093923205.png" },
+            { lat: 54.684392, lon: 25.356286, name: "Prezidento ratukas", url: "https://www.belmontas.lt/", description: "Pas aukštą kavos", img: "https://s1.15min.lt/images/photos/2019/04/19/original/gitano-nausedos-namas-5cb9a09bb4f60.jpg" }
         ];
 
         // Function to Add POIs
