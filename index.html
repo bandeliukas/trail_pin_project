@@ -51,7 +51,11 @@
                 fillColor: "orange",
                 fillOpacity: 0.9
             }).addTo(map)
-            .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
+            // .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
+            .bindTooltip(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`, {
+            permanent: false, // Tooltip disappears when the mouse leaves
+            direction: "top", // Adjust position (top, bottom, left, right, auto)
+            opacity: 0.9 // Make it slightly transparent
         });
 
         downhillPOIs.forEach(poi => {
@@ -63,7 +67,7 @@
             }).addTo(map)
             // .bindPopup(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`);
             .bindTooltip(`<b>${poi.name}</b><br><a href="${poi.url}" target="_blank">More info</a>`, {
-            permanent: true, // Tooltip disappears when the mouse leaves
+            permanent: false, // Tooltip disappears when the mouse leaves
             direction: "top", // Adjust position (top, bottom, left, right, auto)
             opacity: 0.9 // Make it slightly transparent
             })
