@@ -10,8 +10,44 @@
             height: 100vh;
             width: 100%;
         }
+        
+        /* Remove click focus border */
         .leaflet-interactive:focus {
             outline: none;
+        }
+
+        /* Style for the pop-up content */
+        .popup-content {
+            font-family: Arial, sans-serif;
+            max-width: 250px; /* Fixed width */
+            max-height: 350px; /* Fixed height */
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Ensure the content is scrollable if it overflows */
+        }
+
+        .popup-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .popup-content h4 {
+            margin: 5px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .popup-content p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .popup-content a {
+            font-size: 14px;
+            color: blue;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -57,15 +93,14 @@
                 opacity: 0.9
             });
 
-            // Click Event to Show a Custom Popup
+            // Click Event to Show a Custom Popup with fixed size and reduced margins
             marker.on("click", function () {
                 var popupContent = `
-                    <div style="max-width: 200px; font-family: Arial, sans-serif;">
-                        <h4 style="margin: 5px 0;">${poi.name}</h4>
-                        <p style="margin: 5px 0;">${poi.description}</p>
-                        <a href="${poi.url}" target="_blank" style="color: blue; text-decoration: underline;">More Info</a>
-                        <br>
-                        <img src="${poi.img}" alt="Image of ${poi.name}" style="width: 100%; height: auto; border-radius: 5px; margin-top: 5px;">
+                    <div class="popup-content">
+                        <img src="${poi.img}" alt="Image of ${poi.name}">
+                        <h4>${poi.name}</h4>
+                        <p>${poi.description}</p>
+                        <a href="${poi.url}" target="_blank">More Info</a>
                     </div>
                 `;
                 marker.bindPopup(popupContent).openPopup();
