@@ -123,16 +123,29 @@
             // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
         }).addTo(map);
 
-        gpxLayer.on("mouseover", function() {
-            this.getLayers().forEach(layer => {
-                layer.setStyle({ color: "green", opacity: 1, weight: 3 });
+        function increaseHoverArea(layer) {
+            layer.on("mouseover", function() {
+                this.setStyle({ color: 'green', opacity: 1, weight: 5 }); // Highlight on hover
             });
-        });
 
-        gpxLayer.on("mouseout", function() {
-            this.getLayers().forEach(layer => {
-                layer.setStyle({ color: 'green', opacity: 0.5, weight: 1.5 });
+            layer.on("mouseout", function() {
+                this.setStyle({ color: 'green', opacity: 0.5, weight: 1 }); // Restore original style
             });
+
+            // Create an invisible thicker hitbox for better detection
+            let invisibleBuffer = L.polyline(layer.getLatLngs(), {
+                color: "transparent",
+                weight: 20,  // Large detection area
+                opacity: 0
+            }).addTo(map);
+
+            invisibleBuffer.on("mouseover", () => layer.fire("mouseover"));
+            invisibleBuffer.on("mouseout", () => layer.fire("mouseout"));
+        }
+
+        // Apply the hover effect to all GPX track parts after loading
+        gpxLayer.on("loaded", function(e) {
+            e.target.getLayers().forEach(layer => increaseHoverArea(layer));
         });
 
         // POI Data (with description and images)
