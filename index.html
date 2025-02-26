@@ -117,13 +117,23 @@
                 startIcon: null,
                 endIcon: null
             },
-            polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
+            polyline_options: { color: 'green', opacity: 0.5, weight: 1.5 }
     
         }).on('loaded', function(e) {
             // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
         }).addTo(map);
 
+        gpxLayer.on("mouseover", function() {
+            this.getLayers().forEach(layer => {
+                layer.setStyle({ color: "green", opacity: 1, weight: 3 });
+            });
+        });
 
+        gpxLayer.on("mouseout", function() {
+            this.getLayers().forEach(layer => {
+                layer.setStyle({ color: 'green', opacity: 0.5, weight: 1.5 });
+            });
+        });
 
         // POI Data (with description and images)
         var uphillPOIs = [
