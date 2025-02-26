@@ -146,6 +146,10 @@
                 opacity: 0.9
             });
 
+            marker.on("add", function() {
+                this.bringToFront(); // Ensure POIs are always on top
+            });
+
             // Click Event to Show a Custom Popup with fixed size and reduced margins
             marker.on("click", function () {
                 var popupContent = `
