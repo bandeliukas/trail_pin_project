@@ -99,12 +99,14 @@
             let invisibleBuffer = L.polyline(layer.getLatLngs(), {
                 color: "transparent",
                 weight: 20,
-                opacity: 0,
-                interactive: false
+                opacity: 0
             }).addTo(map);
 
             invisibleBuffer.on("mouseover", () => layer.fire("mouseover"));
             invisibleBuffer.on("mouseout", () => layer.fire("mouseout"));
+
+            // Ensure POIs stay on top
+            layer.bringToBack();
         }
 
         // Add multiple GPX tracks
