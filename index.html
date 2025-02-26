@@ -21,21 +21,19 @@
         /* Style for the pop-up content */
         .popup-content {
             font-family: Arial, sans-serif;
-            width: 250px; /* Fixed width */
-            height: 300px; /* Fixed height */
+            width: 250px;
+            height: 300px;
             padding: 5px;
             box-sizing: border-box;
-            overflow-y: auto; /* Ensure the content is scrollable if it overflows */
-            margin: 0; /* Remove margins */
+            overflow-y: auto;
+            margin: 0;
         }
 
         .popup-content img {
             width: 100%;
-            height: 160px; /* Fixed image height */
-            object-fit: cover; /* Make sure image fits well */
+            height: 160px;
+            object-fit: cover;
             border-radius: 5px;
-            margin: 0;
-            padding: 0; /* Remove any default padding */
         }
 
         .popup-content h4 {
@@ -55,7 +53,6 @@
             color: blue;
             text-decoration: underline;
         }
-        
     </style>
 </head>
 <body>
@@ -69,73 +66,39 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors'
         }).addTo(map);
 
+        // Store all GPX layers
+        var gpxTracks = [];
 
+        // Function to add GPX layers and apply hover effect
+        function addGPXTrack(url) {
+            var gpxLayer = new L.GPX(url, {
+                async: true,
+                markers: {
+                    startIcon: null,
+                    endIcon: null
+                },
+                polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
+            }).on('loaded', function(e) {
+                e.target.getLayers().forEach(layer => increaseHoverArea(layer));
+            }).addTo(map);
 
-        // URL to the GPX file on GitHub (Ensure it's the raw URL)
-        var gpxUrl1 = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sapiegine.gpx';
+            gpxTracks.push(gpxLayer);
+        }
 
-        // Add GPX track to the map
-        var gpxLayer = new L.GPX(gpxUrl1, {
-            async: true,
-            markers: {
-                startIcon: null,
-                endIcon: null
-            },
-            polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
-    
-        }).on('loaded', function(e) {
-            // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
-        }).addTo(map);
-
-        
-
-        // URL to the GPX file on GitHub (Ensure it's the raw URL)
-        var gpxUrl2 = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sauletekis.gpx';
-
-        // Add GPX track to the map
-        var gpxLayer = new L.GPX(gpxUrl2, {
-            async: true,
-            markers: {
-                startIcon: null,
-                endIcon: null
-            },
-            polyline_options: { color: 'green', opacity: 0.75, weight: 1.5 }
-    
-        }).on('loaded', function(e) {
-            // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
-        }).addTo(map);
-
-
-
-        // URL to the GPX file on GitHub (Ensure it's the raw URL)
-        var gpxUrl3 = 'https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_puckoriai.gpx';
-
-        // Add GPX track to the map
-        var gpxLayer = new L.GPX(gpxUrl3, {
-            async: true,
-            markers: {
-                startIcon: null,
-                endIcon: null
-            },
-            polyline_options: { color: 'green', opacity: 0.5, weight: 1.5 }
-    
-        }).on('loaded', function(e) {
-            // map.fitBounds(e.target.getBounds()); // Fit the map bounds to the GPX track
-        }).addTo(map);
-
+        // Function to apply hover effect with a larger hitbox
         function increaseHoverArea(layer) {
-            layer.on("mouseover", function() {
-                this.setStyle({ color: 'green', opacity: 1, weight: 5 }); // Highlight on hover
+            layer.on("mouseover", function () {
+                this.setStyle({ color: 'green', opacity: 1, weight: 5 });
             });
 
-            layer.on("mouseout", function() {
-                this.setStyle({ color: 'green', opacity: 0.5, weight: 1 }); // Restore original style
+            layer.on("mouseout", function () {
+                this.setStyle({ color: 'green', opacity: 0.5, weight: 1.5 });
             });
 
             // Create an invisible thicker hitbox for better detection
             let invisibleBuffer = L.polyline(layer.getLatLngs(), {
                 color: "transparent",
-                weight: 20,  // Large detection area
+                weight: 20,
                 opacity: 0
             }).addTo(map);
 
@@ -143,10 +106,10 @@
             invisibleBuffer.on("mouseout", () => layer.fire("mouseout"));
         }
 
-        // Apply the hover effect to all GPX track parts after loading
-        gpxLayer.on("loaded", function(e) {
-            e.target.getLayers().forEach(layer => increaseHoverArea(layer));
-        });
+        // Add multiple GPX tracks
+        addGPXTrack('https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sapiegine.gpx');
+        addGPXTrack('https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_sauletekis.gpx');
+        addGPXTrack('https://raw.githubusercontent.com/bandeliukas/trail_pin_project/refs/heads/main/gpx_puckoriai.gpx');
 
         // POI Data (with description and images)
         var uphillPOIs = [
