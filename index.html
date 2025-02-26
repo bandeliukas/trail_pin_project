@@ -99,7 +99,8 @@
             let invisibleBuffer = L.polyline(layer.getLatLngs(), {
                 color: "transparent",
                 weight: 20,
-                opacity: 0
+                opacity: 0,
+                interactive: false
             }).addTo(map);
 
             invisibleBuffer.on("mouseover", () => layer.fire("mouseover"));
